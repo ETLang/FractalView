@@ -1,0 +1,3 @@
+[submodule "libtiff.net"]
+	path = libtiff.net
+	url = https://github.com/BitMiracle/libtiff.net.git

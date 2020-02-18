@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{2B329CD6-E7D4-EC30-6FAA-44B3263A9824}</ProjectGuid>
+    <ProjectGuid>{09CBE41F-3207-355F-A1D8-2BA5B4638EB7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>DesktopStuff</AssemblyName>
@@ -64,10 +64,10 @@
   <ItemGroup>
     <Compile Include="Assets\DesktopStuff\PlatformHelp.cs" />
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Work/Scratch/FractalView/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Code/FractalView/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Work/Scratch/FractalView/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Code/FractalView/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -265,7 +265,7 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Unsafe">
-      <HintPath>C:/Work/Scratch/FractalView/Library/PackageCache/com.unity.burst@1.2.1/Unity.Burst.Unsafe.dll</HintPath>
+      <HintPath>C:/Code/FractalView/Library/PackageCache/com.unity.burst@1.2.1/Unity.Burst.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

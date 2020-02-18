@@ -4,6 +4,7 @@ Fractal View allows you to view Mandelbrot and Julia fractals rendered in real-t
 Zoom levels up to around 50,000x are rendered using GPU.
 From there to around 10,000,000,000,000x is rendered using SIMD and parallelism on CPU using Unity's Burst compiler.
 
+Project targets Unity 2019.3.0f6
 Can be built as Desktop app, or published as WebGL. (See https://etlang.itch.io/fractal-explorer)
 Note: Burst doesn't work for WebGL, so zoom levels over ~50,000x render very slowly in WebGL.
 
@@ -23,3 +24,4 @@ Note: Burst doesn't work for WebGL, so zoom levels over ~50,000x render very slo
 - Additional visualization modes
 - Bookmarks and slideshow
 - double-double precision using Burst compiler, allowing zoom levels up to somewhere around 10^30.
+- Mobile and UWP support

@@ -1,0 +1,31 @@
+Feature Goals:
+- Gradient Edit
+- Gradient Library
+- Save (PNG/TIFF)
+- CPU high-precision implementation
+- Bookmarks
+- double-double GPU?
+
+Wish List:
+
+- Pick Color Scheme
+- Save PNG (custom dimensions?)
+- Save 48-bit TIFF or dithered PNG. Configurable canvas size and DPI. Supersampling. 
+- Animate Cr, Ci, blend between
+- Bookmark
+- slideshow
+- Better visualization? Seibel? 
+- Animated tour (independent for burning ship and thumbprint
+- Display magnification
+
+Color schemes:
+- Flame
+- Space
+- Metal
+- Earth/Sky
+- Forest
+- Lava
+
+Dithering:
+Actual Color channel value will fall between two discrete palette entries.
+Use weighted randomness to select which entry to utilize.

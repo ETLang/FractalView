@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 27bd2433622e6ee4486365cac4a837d0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gradient: {instanceID: 0}
+  - fractalShader: {fileID: 4800000, guid: 0519201c6e6e01d4d87b7dc660a6bdee, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

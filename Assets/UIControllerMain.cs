@@ -134,9 +134,14 @@ public class UIControllerMain : MonoBehaviour
 
         var photo = effect.RenderPhoto(w, h, SuperSampling._4x4, bpc);
         var photoBytes = photo.EncodeToPNG();
+
+        var fileOut = Help.ChooseSaveFile("png", new string[] { "*.png" });
+        if (fileOut == null)
+            return;
+
 #if UNITY_EDITOR
 
-        File.WriteAllBytes("Fractal.png", photoBytes);
+        File.WriteAllBytes(fileOut, photoBytes);
         //System.Windows.Forms
         //File.WriteAllBytes(@"C:\Work\Scratch\FractalView\TiffWriter.tmp", photoBytes);
 
@@ -153,10 +158,7 @@ public class UIControllerMain : MonoBehaviour
 
 
 #elif UNITY_WEBGL
-        // TODO Encode TIFF
-        //Help.OfferToDownload(tiffData, "Fractal.tiff");
-       
-        Help.OfferToDownload(photoBytes, "Fractal.png");
+        Help.OfferToDownload(photoBytes, fileOut);
 #endif
     }
 

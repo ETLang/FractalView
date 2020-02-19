@@ -41,8 +41,6 @@ public class TheEffect : MonoBehaviour
 
     public RenderTexture RenderPhoto(int w, int h, SuperSampling ss, int bpc)
     {
-        int bias = (int)ss;
-
         var canvasFormat = (bpc == 8) ? RenderTextureFormat.ARGB32 : RenderTextureFormat.ARGBFloat;
         var canvasTexture = new RenderTexture(new RenderTextureDescriptor(w, h, canvasFormat));
         canvasTexture.Create();
@@ -56,10 +54,10 @@ public class TheEffect : MonoBehaviour
         var saveProj = saveCam.projectionMatrix;
         var camProj = _cam.projectionMatrix;
 
-        PublishRenderer.Render(Fractal, saveCam, _pool, 3);
-        GL.Flush();
+        PublishRenderer.Render(Fractal, saveCam, _pool, (int)ss);
+        //GL.Flush();
         saveCam.targetTexture = null;
-        GL.InvalidateState();
+        //GL.InvalidateState();
 
         return canvasTexture;
     }

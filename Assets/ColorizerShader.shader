@@ -95,7 +95,7 @@
                 c.a = 1;
 
 #ifdef CONVERT_SRGB
-                c.rgb = pow(c.rgb, 2.2);
+                //c.rgb = pow(c.rgb, 2.2);
 #endif
 
 #ifdef BGR_SWAP

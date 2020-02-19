@@ -50,6 +50,7 @@ public class UIPublishController : MonoBehaviour
     {
         const int bpc = 32;
 
+        gameObject.SetActive(false);
         UnityEngine.Debug.Log("Publishing...");
 
         int w = useInches ? (int)(dpi * width) : (int)width;
@@ -57,30 +58,35 @@ public class UIPublishController : MonoBehaviour
 
         var photo = effect.RenderPhoto(w, h, SuperSampling._4x4, bpc);
 
-        var photoBytes = photo.GetBytes();
+        var photoBytes = photo.EncodeToTIFF(dpi);
+
+        var fileOut = Help.ChooseSaveFile("tiff", new string[] { "*.tiff", "*.tif" });
+
+        if (string.IsNullOrWhiteSpace(fileOut))
+            return;
+
 #if UNITY_EDITOR
-        File.WriteAllBytes(@"C:\Work\Scratch\FractalView\TiffWriter.tmp", photoBytes);
+        File.WriteAllBytes(fileOut, photoBytes);
+        //File.WriteAllBytes(@"C:\Work\Scratch\FractalView\TiffWriter.tmp", photoBytes);
 
-        var info = new ProcessStartInfo
-        {
-            FileName = @"C:\Work\Scratch\FractalView\TiffWriter.exe",
-            Arguments = $"{w} {h} {dpi} {bpc}",
-            CreateNoWindow = true,
-            UseShellExecute = false
-        };
+        //var info = new ProcessStartInfo
+        //{
+        //    FileName = @"C:\Work\Scratch\FractalView\TiffWriter.exe",
+        //    Arguments = $"{w} {h} {dpi} {bpc}",
+        //    CreateNoWindow = true,
+        //    UseShellExecute = false
+        //};
 
-        var process = Process.Start(info);
-        process.WaitForExit();
+        //var process = Process.Start(info);
+        //process.WaitForExit();
 
 
 #elif UNITY_WEBGL
         // TODO Encode TIFF
-        //Help.OfferToDownload(tiffData, "Fractal.tiff");
+        //Help.OfferToDownload(tiffData, fileOut);
        
         Help.OfferToDownload(UTF8Encoding.Default.GetBytes("Successfully downloaded silly text file!"), "Test.txt");
 #endif
-
-        gameObject.SetActive(false);
     }
 
     public void OnFitMethodChanged()

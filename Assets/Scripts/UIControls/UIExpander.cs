@@ -23,7 +23,19 @@ namespace FractalView
             remove { _onLayoutInvalidated -= value; }
         }
 
-        public RectTransform rectTransform { get; private set; }
+        #region rectTransform
+
+        public RectTransform rectTransform
+        {
+            get
+            {
+                if (_rectTransform == null) _rectTransform = GetComponent<RectTransform>();
+                return _rectTransform;
+            }
+        }
+        private RectTransform _rectTransform;
+
+        #endregion
 
         #endregion
 
@@ -110,7 +122,6 @@ namespace FractalView
         // Start is called before the first frame update
         void Start()
         {
-            rectTransform = GetComponent<RectTransform>();
         }
 
         void ComputeLayout()

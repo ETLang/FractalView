@@ -116,5 +116,20 @@ namespace FractalView
         private bool _AbsMod;
 
         #endregion
+
+        public Bookmark CaptureToBookmark(string name, string category)
+        {
+            return new Bookmark
+            {
+                Center = ViewCenter,
+                Scale = ViewScale,
+                C = C,
+                MaxIterations = MaxIterations,
+                Spread = 1,
+                AbsMod = AbsMod,
+                Name = name,
+                Category = category,
+            };
+        }
     }
 }

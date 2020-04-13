@@ -21,7 +21,7 @@ namespace FractalView
             set
             {
                 if (_Name == value) return;
-                _Name = value.Replace('\n', ' ').Remove('\r');
+                _Name = value.Replace('\n', ' ').Replace("\r", "");
                 ValidateKey();
             }
         }
@@ -37,7 +37,7 @@ namespace FractalView
             set
             {
                 if (_Category == value) return;
-                _Category = value.Replace('\n', ' ').Remove('\r');
+                _Category = value.Replace('\n', ' ').Replace("\r", "");
                 ValidateKey();
             }
         }
@@ -93,6 +93,22 @@ namespace FractalView
 
         #endregion
 
+        #region Mandulia
+
+        public double Mandulia
+        {
+            get { return _Mandulia; }
+            set
+            {
+                if (_Mandulia == value) return;
+                _Mandulia = value;
+                Validate();
+            }
+        }
+        private double _Mandulia;
+
+        #endregion
+
         #region MaxIterations
 
         public int MaxIterations
@@ -106,6 +122,22 @@ namespace FractalView
             }
         }
         private int _MaxIterations;
+
+        #endregion
+
+        #region AbsMod
+
+        public bool AbsMod
+        {
+            get { return _AbsMod; }
+            set
+            {
+                if (_AbsMod == value) return;
+                _AbsMod = value;
+                Validate();
+            }
+        }
+        private bool _AbsMod;
 
         #endregion
 
@@ -145,8 +177,10 @@ namespace FractalView
                 Scale,
                 C.x,
                 C.y,
+                Mandulia,
                 (double)MaxIterations,
-                Spread
+                Spread,
+                AbsMod ? 1 : 0
             };
             var fBuffer = new byte[sizeof(double) * fData.Length];
 
@@ -161,17 +195,19 @@ namespace FractalView
 
             var fBuffer = Convert.FromBase64String(valueStr);
 
-            if (fBuffer.Length != sizeof(double) * 7)
+            if (fBuffer.Length != sizeof(double) * 9)
                 throw new ArgumentException("Can't read value string to bookmark");
 
-            var fData = new double[7];
+            var fData = new double[9];
             Buffer.BlockCopy(fBuffer, 0, fData, 0, fBuffer.Length);
 
             Center = new double2(fData[0], fData[1]);
             Scale = fData[2];
             C = new double2(fData[3], fData[4]);
-            MaxIterations = (int)fData[5];
-            Spread = fData[6];
+            Mandulia = fData[5];
+            MaxIterations = (int)fData[6];
+            Spread = fData[7];
+            AbsMod = fData[8] == 1;
         }
 
         public static Bookmark Parse(string str)
@@ -218,12 +254,17 @@ namespace FractalView
 
         private static string GetPrefsKey(string category, string name)
         {
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(category))
+                return null;
+
             return $"{Application.companyName}/{Application.productName}/Bookmark/{category}/{name}";
         }
 
         private void Validate()
         {
-            PlayerPrefs.SetString(_prefsKey, ValueString());
+            if (!string.IsNullOrWhiteSpace(_prefsKey))
+                PlayerPrefs.SetString(_prefsKey, ValueString());
+
             ValueModified?.Invoke(this);
         }
 
@@ -233,7 +274,9 @@ namespace FractalView
             if (key != _prefsKey && !string.IsNullOrWhiteSpace(_prefsKey))
                 PlayerPrefs.DeleteKey(_prefsKey);
 
-            if (string.IsNullOrWhiteSpace(Category) || string.IsNullOrWhiteSpace(Name))
+            _prefsKey = key;
+
+            if (_prefsKey == null)
                 return;
 
             IdentityModified?.Invoke(this);

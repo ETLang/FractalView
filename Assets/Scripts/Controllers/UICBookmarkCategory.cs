@@ -78,8 +78,6 @@ namespace FractalView
 
         void Start()
         {
-            rectTransform = GetComponent<RectTransform>();
-
             if(ItemContainer != null)
                 ((IDynamicLayout)ItemContainer).Invalidated += UICBookmarkCategory_Invalidated;
 
@@ -102,7 +100,20 @@ namespace FractalView
 
         #region IDynamicLayout
 
-        public RectTransform rectTransform { get; private set; }
+        #region rectTransform
+
+        public RectTransform rectTransform
+        {
+            get
+            {
+                if (_rectTransform == null) _rectTransform = GetComponent<RectTransform>();
+                return _rectTransform;
+            }
+        }
+        private RectTransform _rectTransform;
+
+        #endregion
+
         event Action IDynamicLayout.Invalidated { add { _onLayoutInvalidated += value; } remove { _onLayoutInvalidated -= value; } }
 
         #endregion

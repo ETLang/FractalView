@@ -64,7 +64,7 @@ public class TheEffect : MonoBehaviour
 
     void Start()
     {
-        Fractal = new Fractal();
+        Fractal = UIControllerMain.Instance.Fractal;
         Fractal.Colorizer.SpeedGradient = gradient;
         _pool = new FractalBufferPool();
         _cam = GetComponentInParent<Camera>();

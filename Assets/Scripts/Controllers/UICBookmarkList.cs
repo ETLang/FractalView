@@ -45,14 +45,44 @@ namespace FractalView
         void Start()
         {
             _stack = GetComponent<UIStackLayout>();
+            _bookmarks = UIControllerMain.Instance.Bookmarks;
+            _bookmarks.CategoryAdded += _bookmarks_CategoryAdded;
+            _bookmarks.CategoryRemoved += _bookmarks_CategoryRemoved;
+            _bookmarks.CategoryRenamed += _bookmarks_CategoryRenamed;
+            foreach (var category in _bookmarks.AllCategories)
+                _bookmarks_CategoryAdded(category);
+        }
+
+        private void _bookmarks_CategoryRenamed(string arg1, string arg2)
+        {
+            var uic = _categories[arg1];
+            _categories.Remove(arg1);
+            _categories[arg2] = uic;
+        }
+
+        private void _bookmarks_CategoryRemoved(string obj)
+        {
+            var uic = _categories[obj];
+            Destroy(uic.gameObject);
+            _categories.Remove(obj);
+        }
+
+        private void _bookmarks_CategoryAdded(string obj)
+        {
+            var instance = Instantiate(CategoryPrefab, transform);
+            instance.name = obj;
+            var uic = instance.GetComponent<UICBookmarkCategory>();
+            uic.Label = obj;
+            _categories[obj] = uic;
         }
 
         #endregion
 
         #region Private
 
+        BookmarkCollection _bookmarks;
         UIStackLayout _stack;
-        SortedDictionary<string, UICBookmarkCategory> _categories;
+        SortedDictionary<string, UICBookmarkCategory> _categories = new SortedDictionary<string, UICBookmarkCategory>();
 
         #endregion
     }

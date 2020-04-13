@@ -9,7 +9,19 @@ namespace FractalView
         #region IDynamicLayout
 
         event Action IDynamicLayout.Invalidated { add { _onInvalidated += value; } remove { _onInvalidated -= value; } }
-        public RectTransform rectTransform { get; private set; }
+        #region rectTransform
+
+        public RectTransform rectTransform
+        {
+            get
+            {
+                if (_rectTransform == null) _rectTransform = GetComponent<RectTransform>();
+                return _rectTransform;
+            }
+        }
+        private RectTransform _rectTransform;
+
+        #endregion
 
         #endregion
 
@@ -41,8 +53,6 @@ namespace FractalView
 
         void Start()
         {
-            rectTransform = GetComponent<RectTransform>();
-
             for (int i = 0; i < transform.childCount; i++)
             {
                 var child = transform.GetChild(i).GetComponent<IDynamicLayout>();

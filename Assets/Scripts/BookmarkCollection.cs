@@ -8,6 +8,13 @@ namespace FractalView
 {
     public class BookmarkCollection
     {
+        public static BookmarkCollection Instance { get; private set; }
+
+        static BookmarkCollection()
+        {
+            Instance = new BookmarkCollection();
+        }
+
         public event Action<Bookmark> BookmarkAdded;
         public event Action<Bookmark> BookmarkRemoved;
 
@@ -86,6 +93,22 @@ namespace FractalView
             WriteCategoryManifest(newName);
 
             CategoryRenamed?.Invoke(oldName, newName);
+        }
+
+        public string GetUnusedName(string category)
+        {
+            List<Bookmark> bookmarks;
+            if (!_bookmarks.TryGetValue(category, out bookmarks))
+                return category + "_1";
+
+            int i = 1;
+            while(true)
+            {
+                var testName = category + "_" + i.ToString();
+                if (!bookmarks.Any(b => b.Name == testName))
+                    return testName;
+                i++;
+            }
         }
 
         #region Private

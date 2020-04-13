@@ -3,7 +3,6 @@ using FractalView;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using Unity.Mathematics;
 using UnityEngine;
@@ -11,28 +10,37 @@ using UnityEngine.UI;
 
 public class UIControllerMain : MonoBehaviour
 {
+    public static UIControllerMain Instance { get; private set; }
+
     public Text magnificationText;
     public UIValueController crController;
     public UIValueController ciController;
     public UIValueController mjController;
     public UIValueController maxIController;
+    public UICBookmarkList bookmarkListController;
     public Slider gradientSpreadSlider;
     public Toggle thumbprintToggle;
     public Toggle burningShipToggle;
     public Toggle showVelocityToggle;
     public Toggle showMagnitudeToggle;
     public GameObject publishPanel;
+    public GameObject editBookmarkPanel;
     public float nudgeSpeed = 1;
 
     public TheEffect effect;
-    private Fractal _fractal;
     private Colorizer _colorizer;
+
+    public BookmarkCollection Bookmarks { get; private set; }
+    public Bookmark SelectedBookmark { get; private set; }
+    public Fractal Fractal { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        _fractal = effect.Fractal;
-        _colorizer = _fractal.Colorizer;
+        Instance = this;
+        Bookmarks = BookmarkCollection.Instance;
+        Fractal = new Fractal();
+        _colorizer = Fractal.Colorizer;
 
         crController.ValueChanged += CrController_ValueChanged;
         ciController.ValueChanged += CiController_ValueChanged;
@@ -44,28 +52,28 @@ public class UIControllerMain : MonoBehaviour
 
     private void MaxIController_ValueChanged()
     {
-        _fractal.MaxIterations = (int)maxIController.CurrentValue;
+        Fractal.MaxIterations = (int)maxIController.CurrentValue;
     }
 
     private void MjController_ValueChanged()
     {
-        _fractal.Mandulia = mjController.CurrentValue;
+        Fractal.Mandulia = mjController.CurrentValue;
     }
 
     private void CiController_ValueChanged()
     {
-        _fractal.C = new double2(_fractal.C.x, ciController.CurrentValue);
+        Fractal.C = new double2(Fractal.C.x, ciController.CurrentValue);
     }
 
     private void CrController_ValueChanged()
     {
-        _fractal.C = new double2(crController.CurrentValue, _fractal.C.y);
+        Fractal.C = new double2(crController.CurrentValue, Fractal.C.y);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_fractal == null) return;
+        if (Fractal == null) return;
 
         if (_mainCamera == null)
         {
@@ -74,7 +82,7 @@ public class UIControllerMain : MonoBehaviour
 
         if (_mainCamera != null)
         {
-            var mag = _fractal.ViewScale;
+            var mag = Fractal.ViewScale;
 
             if (_baseMag == 0)
                 _baseMag = mag;
@@ -95,10 +103,10 @@ public class UIControllerMain : MonoBehaviour
 
     public void TypeToggleValueChanged()
     {
-        if (_fractal.AbsMod == burningShipToggle.isOn)
+        if (Fractal.AbsMod == burningShipToggle.isOn)
             return;
 
-        _fractal.AbsMod = burningShipToggle.isOn;
+        Fractal.AbsMod = burningShipToggle.isOn;
     }
 
     public void DisplayToggleValueChanged()
@@ -167,7 +175,26 @@ public class UIControllerMain : MonoBehaviour
         publishPanel.SetActive(true);
     }
 
+    public void CreateBookmark()
+    {
+        editBookmarkPanel.SetActive(true);
+    }
+
+    public void EditBookmark()
+    {
+        editBookmarkPanel.SetActive(true);
+    }
+
+    public void DeleteBookmark()
+    {
+        Debug.Log("Delete Bookmark!");
+    }
+
+    #region Private
+
     private Camera _mainCamera;
     private double _baseMag = 0;
     private double _lastNudgeScale = 0;
+
+    #endregion
 }
